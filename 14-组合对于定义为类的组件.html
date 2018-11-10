@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>14-组合对于定义为类的组件</title>
+    <style>
+        .bg_topbox {
+            width: 300px;
+            margin: 0 auto
+        }
+
+        #root {
+            margin-top: 30px;
+            padding-left: 50px;
+        }
+
+        .FancyBorder {
+            padding: 10px 10px;
+            border: 10px solid;
+        }
+
+        .fancy_border_blue {
+            border-color: blue;
+        }
+
+        .dialog_title {
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .dialog_message {
+            font-size: larger;
+        }
+    </style>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div class="bg_topbox">
+        <h1>14-组合对于定义为类的组件</h1>
+    </div>
+    <div id="root">
+
+    </div>
+
+    <script type="text/babel">
+
+    function FancyBorder(props) {
+      return (
+        <div className={'FancyBorder FancyBorder-' + props.color}>
+            {props.children}
+        </div>
+      );
+    }
+
+    function Dialog(props) {
+      return (
+        <FancyBorder color="blue">
+          <h1 className="dialog_title">
+            {props.title}
+          </h1>
+          <p className="dialog_message">
+            {props.message}  {props.children}
+          </p>
+          
+        </FancyBorder>
+      );
+    }
+
+    class SignUpDialog extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {login: ''};
+        }
+
+        render() {
+          return (
+            <Dialog title="Mars Exploration Program"
+                    message="How should we refer to you?" children="children" >
+              <input value={this.state.login}
+                    onChange={(e) => {this.handleChange(e)}} />
+              <button onClick={(e) => {this.handleSignUp(e)}}>
+                Sign Me Up!
+              </button>
+            </Dialog>
+          );
+        }
+
+        handleChange(e) {
+          this.setState({login: e.target.value});
+        }
+
+        handleSignUp() {
+          alert(`Welcome aboard, ${this.state.login}!`);
+        }
+      }
+
+      ReactDOM.render(
+        <SignUpDialog />,
+        document.getElementById('root')
+      );
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>09-表单</title>
+    <style>
+        .bg_topbox {
+            width: 300px;
+            margin: 0 auto
+        }
+
+        #root {
+            margin-top: 30px;
+            padding-left: 50px;
+        }
+
+        * {
+            font-family: sans-serif;
+            margin: 0;
+        }
+
+        button {
+            height: 40px;
+            width: 200px;
+        }
+
+        .warning {
+            background-color: red;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+
+            font-size: 14pt;
+            color: white;
+        }
+    </style>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div class="bg_topbox">
+        <h1>09-表单</h1>
+    </div>
+    <div id="root">
+
+    </div>
+    <div id="roots">
+
+    </div>
+
+    <script type="text/babel">
+        class NameForm extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    textInput: '',
+                    textarea:'我是初始值',
+                    optionValue:'mango',
+                    isGoing: true,
+                    numberOfGuests: 2
+                };
+
+                this.handleChange = this.handleChange.bind(this);
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+
+            handleChange(event) {
+                //this.setState({value: event.target.value}); // 输入获取值
+                this.setState({textInput: event.target.value.toUpperCase()});//只能输入大写
+                
+            }
+
+            handleSubmit(event) {
+                // alert('A name was submitted: ' + this.state.textInput);
+                alert('A name was submitted: ' + this.state.optionValue);
+
+                event.preventDefault();
+            }
+            textareaChange(event){
+                this.setState({textarea: event.target.value});
+            }
+            optionValueChange(e){
+                this.setState({optionValue: e.target.value});
+            }
+            handleInputChange(event) {
+                const target = event.target;
+                const value = target.type === 'checkbox' ? target.checked : target.value;
+                const name = target.name;
+
+                this.setState({
+                    [name]: value
+                });
+            }
+            render() {
+                return (
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                    Name:
+                    <input type="text" value={this.state.textInput} onChange={this.handleChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                    <p>input:{this.state.textInput+10}</p>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <textarea value={this.state.textarea} onChange={(e) => {this.textareaChange(e)}} />
+                    <br/>
+                    <p>textarea:{this.state.textarea}</p>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <select value={this.state.optionValue}  onChange={(e) => {this.optionValueChange(e)}}>
+                        <option value="grapefruit">Grapefruit</option>
+                        <option value="lime">Lime</option>
+                        <option  value="coconut">Coconut</option>
+                        <option value="mango">Mango</option>
+                    </select>
+                    <p>optionValue:{this.state.optionValue}</p>
+                    <br/>
+               
+                    <br/>
+                    <br/>
+                    <label>
+                        Is going:
+                        <input
+                            name="isGoing"
+                            type="checkbox"
+                            checked={this.state.isGoing}
+                            onChange={(e) => {this.handleInputChange(e)}} />
+                    </label>
+                    <br />
+                    <label>
+                        Number of guests:
+                        <input
+                            name="numberOfGuests"
+                            type="number"
+                            value={this.state.numberOfGuests}
+                            onChange={(e) => {this.handleInputChange(e)}} />
+                    </label>
+                </form>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <NameForm />,
+            document.getElementById('root')
+        );
+
+
+
+
+    </script>
+</body>
+
+</html>

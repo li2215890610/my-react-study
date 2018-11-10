@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>12-继承 -- 组件当作属性来渲染页面</title>
+    <style>
+        .bg_topbox {
+            width: 300px;
+            margin: 0 auto
+        }
+
+        #root {
+            margin-top: 30px;
+            padding-left: 50px;
+        }
+        html, body, #root {
+            width: 100%;
+            height: 100%;
+        }
+
+        .SplitPane {
+            width: 100%;
+            height: 100%;
+        }
+
+        .SplitPane-left {
+            float: left;
+            width: 30%;
+            height: 100%;
+        }
+
+        .SplitPane-right {
+            float: left;
+            width: 70%;
+            height: 100%;
+        }
+
+        .Contacts {
+            width: 100%;
+            height: 100%; 
+            background: lightblue;
+        }
+
+        .Chat {
+            width: 100%;
+            height: 100%; 
+            background: pink;
+        }
+
+    </style>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div class="bg_topbox">
+        <h1>11-组件当作属性来渲染页面</h1>
+    </div>
+    <div id="root">
+
+    </div>
+
+    <script type="text/babel">
+        // 已组件到形式布局 把组件当作属性来布局
+       function Contacts() {
+             return <div className="Contacts" />;
+       }
+
+       function Chat() {
+            return <div className="Chat" />;
+        }
+
+        function SplitPane(props) {
+            return (
+                <div className="SplitPane">
+                    <div className="SplitPane-left">
+                        {props.left} 我是组件嵌套 left div
+                    </div>
+                    <div className="SplitPane-right">
+                        {props.right}我是组件嵌套 right div
+                    </div>
+                </div>
+            );
+        }
+
+        function App() {
+            return (
+                <SplitPane
+                left={
+                    <Contacts />
+                }
+                right={
+                    <Chat />
+                } />
+            );
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+
+</html>

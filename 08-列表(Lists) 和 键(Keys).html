@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>08-列表(Lists) 和 键(Keys)</title>
+    <style>
+        .bg_topbox{width: 300px;margin: 0 auto}
+        #root{margin-top: 30px;}
+        li{height: 100px;}
+    </style>
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+    <div class="bg_topbox">
+            <h1>08-列表(Lists) 和 键(Keys)</h1>
+    </div>
+    <div id="root">
+        
+    </div>
+    <script type="text/babel">
+
+        function ListItem(props) {
+            // 这里不需要指定 key ：
+            return <li onClick={props.onClick}>{props.value}</li>;
+        }
+
+       const numbers = [1, 2, 3, 4, 5];
+       class NumberList extends React.Component {
+            constructor(props) {
+                super(props);                
+            }
+
+            click = (number,e) => {
+                console.log(number);
+                console.log(e);
+                alert(11)
+                let index= e.target.getAttribute("data-index");
+                console.log(index)
+            }
+            render() {
+                const listItems = this.props.numbers.map((number) =>
+                    // key 应该在这里被指定 不指定 key 会在浏览器报错 
+                    <ListItem key={number.toString()} data-index={number} value={number} onClick={(e) => {this.click(number, e)}} />
+                );
+                return (
+                    <div>
+                        <ul>
+                            {listItems}
+                        </ul>    
+                    </div>
+                )
+            }
+        }
+
+
+        ReactDOM.render(
+            <NumberList numbers={numbers} />,
+            document.getElementById('root')
+        );
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>06-处理事件</title>
+    <style>
+        .bg_topbox {
+            width: 300px;
+            margin: 0 auto
+        }
+
+        #root {
+            margin-top: 30px;
+        }
+    </style>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div class="bg_topbox">
+        <h1>06-处理事件</h1>
+    </div>
+    <div id="root">
+
+    </div>
+    <div id="root2">
+
+    </div>
+    <script type="text/babel">
+        /***********第一种方式************/
+        class Toggle extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {isToggleOn: true};
+
+                // 这个绑定是必要的，使`this`在回调中起作用 可以这样
+                this.handleClick = this.handleClick.bind(this);
+            }
+
+            handleClick(){
+                //下面的这个data 是形参  等价于      data ===  this.state.isToggleOn
+                this.setState(data => ({
+                    isToggleOn: !data.isToggleOn
+                }));
+            }
+
+            render() {
+                return (
+                    <button onClick={this.handleClick}>
+                        {this.state.isToggleOn ? 'ON' : 'OFF'}
+                    </button>
+                );
+            }
+        }
+
+        /***********第二种方式 与 事件传参 ************/
+
+        class LoggingButton extends React.Component {
+            // 这个语法确保 `this` 绑定在 handleClick 中。
+            // 警告：这是 *实验性的* 语法。
+            handleClick = (e,id) => {
+                // alert("点击了")
+                alert(e+"------eeeeee")
+                alert(id+"------idididid")
+            }
+
+            deleteRow = (id,e) => {
+                // alert("点击了")
+                alert(e+"------eeeeee")
+                alert(id+"------idididid")
+            }
+
+            render() {
+                return (
+                    <div>
+                      <Toggle />
+                      <button onClick={this.handleClick.bind(this,2)}>
+                         第一种方式
+                      </button>
+  
+                        <button onClick={(e) => this.deleteRow(2,e)}>
+                            第二种方式
+                        </button>
+                    </div>
+                );
+            }
+        }
+        ReactDOM.render(
+            <LoggingButton />,
+            document.getElementById('root')
+        );
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

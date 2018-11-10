@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>04-组件和属性</title>
+    <style>
+        .bg_topbox{width: 300px;margin: 0 auto}
+        #root{margin-top: 30px;}
+    </style>
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+    <div class="bg_topbox">
+            <h1>04-组件(Components) 和 属性(Props) 2</h1>
+            <h3>拆分组件嵌套</h3>
+
+    </div>
+    <div id="root">
+        
+    </div>
+    <script type="text/babel">
+ 
+        function formatDate(date) {
+            return date.toLocaleDateString();
+        }
+        /*
+        //没有拆分组件之前
+        function Comment(props) {
+            return (
+                <div className="Comment">
+                    <div className="UserInfo">
+                        <img className="Avatar"
+                            src={props.author.avatarUrl}
+                            alt={props.author.name} />
+                        <div className="UserInfo-name">
+                        {props.author.name}
+                        </div>
+                    </div>
+                    <div className="Comment-text">
+                        {props.text}
+                    </div>
+                    <div className="Comment-date">
+                        {formatDate(props.date)}
+                    </div>
+                </div>
+            );
+        }
+        */
+
+        //下面是拆分组件
+        function Avatar(props) {
+            return (
+                <img className="Avatar"
+                src={props.user.avatarUrl}
+                alt={props.user.name}
+                />
+            );
+        }
+        function UserInfo(props) {
+            return(
+                <div className="UserInfo">
+                    <Avatar user={props.author} />
+                    <div className="UserInfo-name">
+                        {props.author.name}
+                    </div>
+                </div>
+            )
+        }
+        function UserInfoData(props) {            
+            return (
+                <div>
+                    <div className="Comment-text">
+                        {props.text}
+                    </div>
+                    <div className="Comment-date">
+                        {formatDate(props.date)}
+                    </div>    
+                </div>
+            )
+        }
+
+        //  <UserInfoData text={props.text} date={props.date}/> //嵌套组件传值
+ 
+        function Comment(props) {
+            return (
+                <div className="Comment">
+                    <UserInfo author={props.author}/>
+                    <UserInfoData text={props.text} date={props.date}/>
+                </div>
+            );
+        }
+
+        const comment = {
+            date: new Date(),
+            text: ' liguangyang  love you!',
+            author: {
+                name: 'my name is liguangyang',
+                avatarUrl: 'http://placekitten.com/g/64/64'
+            }
+        };
+        ReactDOM.render(
+            <Comment  
+                date={comment.date}
+                text={comment.text}
+                author={comment.author}
+            />,
+            document.getElementById('root')
+        );
+
+        
+    
+    </script>
+</body>
+</html>

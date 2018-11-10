@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>02-初识jsx</title>
+    <style>
+        .bg_topbox {
+            width: 300px;
+            margin: 0 auto
+        }
+
+        #root {
+            margin-top: 30px;
+        }
+    </style>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div class="bg_topbox">
+        <h1> 02-初识jsx</h1>
+    </div>
+    <div id="root">
+
+    </div>
+    <!-- 设置标签类型 编译  text/babel-->
+    <script type="text/babel">
+        // 可以用 花括号 把任意的 JavaScript 表达式 嵌入到 JSX 中。
+        function formatName(user) {
+            console.log(user);
+            
+            if (user.firstName == undefined) {
+                
+                return `你好啊`
+            }else{
+                return user.firstName + ' ' + user.lastName;
+            }
+        }
+
+        const user = {
+            firstName: 'Harper',
+            lastName: 'Perez',
+            avatarUrl:'www.baidu.com'
+        };
+
+        // const element = (
+        //     <h1>
+        //         Hello, {formatName(user)}!
+        //     </h1>
+        // );
+
+        //可以用 双引号来指定字符串字面量作为值
+        const element = <div tabIndex="0"></div>;
+        // 可以用花括号嵌入一个 JavaScript 表达式作为属性值:
+        const element = <img src={user.avatarUrl}></img>;
+        // 在属性中嵌入 js 表达式时（js代码），不要使用引号来包裹大括号。 否则，JSX 将该属性视为字符串字面量而不是表达式。
+        // 对于字符串值你应该使用引号，对于表达式你应该使用大括号，但两者不能同时用于同一属性。
+        
+        //如果是空标签，您应该像 XML 一样，使用 />立即闭合它：
+        const element = <img src={user.avatarUrl} />;
+        
+/////////////////////////////////////////////////////--------------------------------------------------------------
+        
+        // JSX 表示对象 
+        // 下面两种是一样的意思
+        const elementJSX = (
+            <h1 className="greeting">
+                Hello, world!
+            </h1>
+        );
+        const elementJSX = React.createElement(
+            'h1',
+            {className: 'greeting'},
+            'Hello, world!'
+        );
+        // React.createElement() 会执行一些检查来帮助你编写没有bug的代码，但基本上它会创建一个如下所示的对象：
+        // 注意: 这是简化的结构
+        /*
+        这些对象被称作“React元素”。你可以把他们想象成为你想在屏幕上显示内容的一种描述。
+        React会读取这些对象，用他们来构建DOM，并且保持它们的不断更新。
+        const element = {
+            type: 'h1',
+            props: {
+                className: 'greeting',
+                children: 'Hello, world'
+            }
+        };
+        */
+        ReactDOM.render(
+            element,
+            document.getElementById('root')
+        );
+
+    </script>
+</body>
+
+</html>
